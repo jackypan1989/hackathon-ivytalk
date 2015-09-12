@@ -12,8 +12,5 @@ mongoose.connect(db_conn, function (err) {
     } else {
         // Globbing model files
         console.log('connect to mongoDB');
-        // loader(MODELS_PATH, function (file) {
-        //     require(file);
-        // });
     }
 });

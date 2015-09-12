@@ -8,7 +8,7 @@ function getUnknownError (err) {
 	};
 }
 
-module.exports = function (socket, err_code, _err) {
+module.exports = function (err_code, _err) {
 	var err_code = 'UNKNOWN_ERR',
 		err = null,
 		error,
@@ -31,5 +31,7 @@ module.exports = function (socket, err_code, _err) {
 			err_raw: err
 		};
 	}
-	socket.emit('error', err_resp);
+
+	err_resp.event = 'error';
+	return err_resp;
 };
