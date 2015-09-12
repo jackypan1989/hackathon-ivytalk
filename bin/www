@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * MongoDB init
+ * Init
  */
-require('../config/db');
+require('../config/init')();
 
 /**
  * Module dependencies.

@@ -18,7 +18,7 @@ function initConv (socket, toUserId, cb) {
 			}, callback);
 		},
 		function (user, callback) {
-			if (!user) return errService(socket, 'USER_NOT_FOUND');
+			if (!user) return cb('USER_NOT_FOUND');
 			Conversation.loadOne(from, user, callback);
 		}
 	], cb);
@@ -42,15 +42,15 @@ module.exports = function (socket) {
 					conversation: conv._id
 				})
 				.populate('from')
-				.sort('-createAt')
+				.sort('createAt')
 				.exec(callback);
 			}
 		], function (err, messages) {
-			if (err) return errService(socket, err);
-			ack(messages);
+			if (err) return ack(errService(err));
+			ack(null, messages);
 		});
 	});
-	
+
 	/**
 	 * message:create
 	 * @params: userId, content
@@ -77,16 +77,13 @@ module.exports = function (socket) {
 				});
 			}
 		], function (err, message, conv) {
-			if (err) return errService(socket, err);
+			if (err) return ack(errService(err));
 			socket.broadcast.to(toUserId).emit(message, {
                 from: from,
                 message: message,
                 conv: conv
             });
-			ack({
-				message: message,
-				conv: conv
-			});
+			ack(null, message);
 		});
 	});
 };

@@ -32,16 +32,8 @@ block content
 
 block script
 	script.
-		var socket = io.connect(),
-			user = {
+		var ivyTalk = new IvyTalk(io, {
 				name: 'Roger Kuo',
 				userId: 'roger',
 				gender: 'male'
-			};
-			
-		socket.on('connect', function () {
-			socket.emit('user:register', user, function (data) {
-				user = data;
-				console.log(user);
 			});
-		});

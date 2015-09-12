@@ -27,10 +27,10 @@ module.exports = function (socket) {
 				user.save(callback);
 			}
 		], function (err, user, numberAffected) {
-			if (err) return errService(socket, 'REGISTER_ERR', err);
+			if (err) return ack(errService('REGISTER_ERR', err));
 			socket.user = user;
 			socket.join(userId);
-			ack(user);
+			ack(null, user);
 		});
 	});
 }
