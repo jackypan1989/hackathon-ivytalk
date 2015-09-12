@@ -7,13 +7,15 @@ var IvyTalk = (function () {
 		alert(error.err_description);
 	}
 
-	function Ivy (io, user) {
+	function Ivy (io, user, onReceiveMsg) {
 		var that = this;
 
 		this.convs = {};
 
 		this.socket = io.connect();
 		
+		this.onReceiveMsg = onReceiveMsg || function () {};
+
 		//on connect
 		this.socket.on('connect', function () {
 			that.socket.emit(USER_REGISTER, user, function (err, data) {
@@ -26,16 +28,26 @@ var IvyTalk = (function () {
 		this.socket.on('message', function (data) {
 			var from = data.from,
 				message = data.message;
-
-
+			that.onReceiveMsg(from, message);
 		});
 	}
 
+	Ivy.prototype.initConv = function (userId) {
+		if (!this.convs[userId]) {
+			this.convs[userId] = {
+				messages: [],
+				total_score: 0
+			};
+		}
+	}
+
 	Ivy.prototype.pushMessage = function (userId, message) {
-		if (this.convs[userId]) {
-			this.convs[userId].push(message);
+		this.initConv(userId);
+
+		if (Array.isArray(message)) {
+			this.convs[userId].messages.concat(message);
 		} else {
-			this.convs[userId] = [message];
+			this.convs[userId].push(message);
 		}
 	}
 
@@ -48,7 +60,7 @@ var IvyTalk = (function () {
 				handleError(err);
 				cb(err);
 			} else {
-				that.convs[userId] = messages;
+				that.pushMessage(userId, messages);
 				cb(null, messages);
 			}
 		});
