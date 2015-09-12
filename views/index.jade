@@ -1,18 +1,31 @@
 extends layout
 
 block content
-	.content
-		.title-block.col-sm-4.col-sm-offset-4
-				img.logo(src='/images/ivytalk_logo.png')
-				img.logo-cht(src='/images/ivytalk_logo_cht.png')
+	.bg-img
+		img(src='/images/background.png')
+	.content		
 		.row.content-block
-			.col-sm-4
+			.col-xs-4
 				ddd
-			.col-sm-4.middle-block
-				div.chat-block
-			.col-sm-4
+			.col-xs-4.middle-block
+				.chat-block
+					.title-block
+						img.logo(src='/images/ivytalk_logo.png')
+						img.logo-cht(src='/images/ivytalk_logo_cht.png')
+					.a-message
+						span.target
+							img.img-responsive.profile-pic(src='/images/ivy_photo.png')
+							.message.talk-bubble.round
+								.talktext
+									p Hi 郭泰頤, 安安你好啊想你喔123435353535645645213123123我
+					.a-message
+						.self
+							.message.talk-bubble.round
+								.talktext
+									p 好久不見呢! 愛愛12345678900-
+			.col-xs-4
 				aaa
-	div.msg-block
+	.msg-block
 		textarea.msg-input(autofocus placeholder="請輸入聊天訊息")
 		button.btn.msg-send 送出
 
