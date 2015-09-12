@@ -50,7 +50,7 @@ module.exports = function (socket) {
 			ack(messages);
 		});
 	});
-	
+
 	/**
 	 * message:create
 	 * @params: userId, content
