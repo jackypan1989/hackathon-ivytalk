@@ -11,23 +11,23 @@ angular.module('ivyTalk')
 		alert(error.err_description);
 	}
 
-	function initConv (userId) {
-		if (!convs[userId]) {
-			convs[userId] = {
+	function initConv (targetId) {
+		if (!convs[targetId]) {
+			convs[targetId] = {
 				messages: [],
 				score: 0
 			};
 		}
 	}
 
-	function pushMessage (userId, message) {
-		initConv(userId);
-
+	function pushMessage (targetId, message) {
+		initConv(targetId);
 		if (Array.isArray(message)) {
-			convs[userId].messages.concat(message);
+			convs[targetId].messages.concat(message);
 		} else {
-			convs[userId].push(message);
+			convs[targetId].messages.push(message);
 		}
+		console.log(convs);
 	}
 
 	socket.on('message', function (data) {
@@ -51,6 +51,7 @@ angular.module('ivyTalk')
 			socket.emit(USER_REGISTER, user, function (err, data) {
 				if (err) return handleError(err);
 				that.user = data;
+				console.log("Registered Successfully: " + data.name);
 				console.log(data);
 			});
 		},
@@ -59,30 +60,31 @@ angular.module('ivyTalk')
 			listeners.push(listener);
 		},
 
-		listMessages: function (userId, cb) {
-			socket.emit(MESSAGE_LIST, {
-				userId: userId
-			}, function (err, messages) {
-				if (err) {
-					handleError(err);
-					cb(err);
-				} else {
-					pushMessage(userId, messages);
-					cb(null, messages);
-				}
-			});
-		},
+		// listMessages: function (userId, targetId, cb) {
+		// 	socket.emit(MESSAGE_LIST, {
+		// 		userId: userId
+		// 	}, function (err, messages) {
+		// 		if (err) {
+		// 			handleError(err);
+		// 			cb(err);
+		// 		} else {
+		// 			pushMessage(userId, targetId, messages);
+		// 			cb(null, messages);
+		// 		}
+		// 	});
+		// },
 
-		createMessage: function (userId, content, cb) {
+		createMessage: function (targetId, content, cb) {
 			socket.emit(MESSAGE_CREATE, {
-				userId: userId,
+				userId: targetId,
 				content: content
 			}, function (err, message) {
 				if (err) {
 					handleError(err);
 					cb(err);
 				} else {
-					pushMessage(userId, message);
+					console.log("done createMessage: "+ message);
+					pushMessage(targetId, message);
 					cb(null, message);
 				}
 			});
