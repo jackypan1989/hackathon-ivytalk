@@ -1,7 +1,10 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-	db_conn = 'mongodb://localhost/ivy-talk';
+	db_conn = 'mongodb://localhost/ivy-talk',
+	path = require('path'),
+	loader = require('../services/loader'),
+	MODELS_PATH = path.join(__dirname, '..', 'app', 'models');
 
 mongoose.connect(db_conn, function (err) {
     if (err) {
@@ -9,5 +12,8 @@ mongoose.connect(db_conn, function (err) {
     } else {
         // Globbing model files
         console.log('connect to mongoDB');
+        // loader(MODELS_PATH, function (file) {
+        //     require(file);
+        // });
     }
 });

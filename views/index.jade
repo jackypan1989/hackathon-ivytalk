@@ -19,8 +19,16 @@ block content
 
 block script
 	script.
-		var socket = io.connect();
-		
+		var socket = io.connect(),
+			user = {
+				name: 'Roger Kuo',
+				userId: 'roger',
+				gender: 'male'
+			};
+			
 		socket.on('connect', function () {
-			console.log('connect to server');
+			socket.emit('user:register', user, function (data) {
+				user = data;
+				console.log(user);
+			});
 		});
