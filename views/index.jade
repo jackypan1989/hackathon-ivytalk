@@ -1,5 +1,34 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	.content
+		.title-block.col-sm-4.col-sm-offset-4
+				img.logo(src='/images/ivytalk_logo.png')
+				img.logo-cht(src='/images/ivytalk_logo_cht.png')
+		.row.content-block
+			.col-sm-4
+				ddd
+			.col-sm-4.middle-block
+				div.chat-block
+			.col-sm-4
+				aaa
+	div.msg-block
+		textarea.msg-input(autofocus placeholder="請輸入聊天訊息")
+		button.btn.msg-send 送出
+
+
+block script
+	script.
+		var socket = io.connect(),
+			user = {
+				name: 'Roger Kuo',
+				userId: 'roger',
+				gender: 'male'
+			};
+			
+		socket.on('connect', function () {
+			socket.emit('user:register', user, function (data) {
+				user = data;
+				console.log(user);
+			});
+		});
