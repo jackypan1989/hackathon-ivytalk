@@ -15,7 +15,7 @@ angular.module('ivyTalk')
 		if (!convs[userId]) {
 			convs[userId] = {
 				messages: [],
-				total_score: 0
+				score: 0
 			};
 		}
 	}

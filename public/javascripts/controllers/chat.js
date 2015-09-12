@@ -9,4 +9,9 @@ angular.module('ivyTalk')
 		userId: 'roger',
 		gender: 'male'
 	});
+
+	Messenger.registerListener(function (from, message) {
+		//console.log(from);
+		//console.log(message);
+	});
 }]);
