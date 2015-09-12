@@ -6,7 +6,8 @@ var nodejieba = require('nodejieba');
 var _ = require('lodash')
 var stopwords = require('./stopwords')
 
-var ivyDict = {};
+var ivyDict = null;
+var isLoaded = false;
 
 function skip(word) {
   return word.match(/[0-9a-zA-Z]+/);
@@ -16,7 +17,6 @@ var getSentiment = function(sentence) {
   var words = nodejieba.cut(sentence);
   var score = 0;
   for (var i=0; i<words.length; i++) {
-    console.log(ivyDict[words[i]]);
     if (ivyDict[words[i]]) {
       score += ivyDict[words[i]];
     }
@@ -24,17 +24,19 @@ var getSentiment = function(sentence) {
   return score/words.length;
 };
 
-var loadCorpus = function() {
-  lineReader
-    .eachLine('./corpus/ivy.txt', function(line){
-      var arr = line.split(' ');
-      ivyDict[arr[0]] = arr[1];
-    })
-    .then(function(err) {
-      if (err) throw err;
-      var score = getSentiment('我喜歡');
-      console.log(score);
-    });
+var load = function() {
+  if (!ivyDict) {
+    ivyDict = {};
+    console.log('start loading ..');
+    lineReader
+      .eachLine(__dirname + '/corpus/ivy.txt', function(line){
+        var arr = line.split(' ');
+        ivyDict[arr[0]] = arr[1];
+      })
+      .then(function(err) {
+        if (err) throw err;
+      });
+  }
 };
 
 var training = function() {
@@ -65,6 +67,9 @@ var training = function() {
     });
 };
 
-loadCorpus();
+// loadCorpus();
+// var score = getSentiment('我喜歡你!');
+// console.log(score);
 
-
+exports.load = load;
+exports.getSentiment = getSentiment;
