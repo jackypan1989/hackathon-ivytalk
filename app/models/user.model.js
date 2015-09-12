@@ -20,6 +20,9 @@ var UserSchema = new Schema({
 	gender: {
     	type: String,
     	enum: ['male', 'female']
+    },
+    photo: {
+    	type: String
     }
 });
 

@@ -1,5 +1,7 @@
-var users = require('./user.event');
+var userEvent = require('./user.event'),
+	chatEvent = require('./chat.event');
 
 module.exports = function (socket) {
-	users(socket);
+	userEvent(socket);
+	chatEvent(socket);
 };

@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+    async = require('async');
 
 /**
  * Conversation Schema
@@ -29,4 +30,31 @@ var ConversationSchema = new Schema({
  */
 ConversationSchema.index({participants: 1});
 
-mongoose.model('Conversation', ConversationSchema);
+/**
+ * Statics
+ */
+ConversationSchema.statics.loadOne = function (from, to, cb) {
+    var Conversation = this;
+
+    async.waterfall([
+        function (callback) {
+            Conversation.findOne({
+                participants: { $all: [from._id, to._id] }
+            }, callback);
+        },
+        function (conv, callback) {
+            if (conv) return callback(null, conv, 0);
+            conv = new Conversation({
+                participants: [from, to]
+            });
+            conv.save(callback);
+        },
+        function (conv, numberAffedted, callback) {
+            conv.populate('participants', callback);
+        }
+    ], function (err, conv) {
+        cb(err, conv);
+    });
+};
+
+module.exports = mongoose.model('Conversation', ConversationSchema);

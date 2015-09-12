@@ -30,6 +30,6 @@ var MessageSchema = new Schema({
 
 MessageSchema.index({conversation: 1});
 
-mongoose.model('Message', MessageSchema);
+module.exports = mongoose.model('Message', MessageSchema);
 
 

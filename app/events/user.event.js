@@ -1,3 +1,5 @@
+'use stricts';
+
 /**
  * Module dependencies.
  */
@@ -6,6 +8,11 @@ var User = require('../models/user.model'),
 	errService = require('../../services/error');
 
 module.exports = function (socket) {
+	/**
+	 * user:register
+	 * @params: userId, name, gender
+	 * @ack: user
+	 */
 	socket.on('user:register', function (data, ack) {
 		var userId = data.userId;
 		async.waterfall([
