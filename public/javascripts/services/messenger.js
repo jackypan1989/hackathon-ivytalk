@@ -19,10 +19,10 @@ angular.module('ivyTalk')
 			convs[targetId] = {
 				messages: [],
 				//my score
-				my_total_score: 0,
+				my_total_score: 50,
 				my_scores: [],
 				//target score
-				target_total_score: 0,
+				target_total_score: 50,
 				target_scores:[],
 				//target resp time
 				resp_times: [],
@@ -54,14 +54,20 @@ angular.module('ivyTalk')
 	}
 
 	function pushMessage (targetId, message) {
+		var create_time = new Date(message.createAt).getTime(),
+			ivy_score = message.senti_score * 4,
+			score_data = [
+				create_time,
+				message.senti_score
+			];
 		initConv(targetId);
 		convs[targetId].messages.push(message);
 		if (isMyMsg(message)) {
-			convs[targetId].my_total_score += message.senti_score;
-			convs[targetId].my_scores.push(message.senti_score);
+			convs[targetId].my_total_score += ivy_score;
+			convs[targetId].my_scores.push(score_data);
 		} else {
-			convs[targetId].target_total_score += message.senti_score;
-			convs[targetId].target_scores.push(message.senti_score);
+			convs[targetId].target_total_score += ivy_score;
+			convs[targetId].target_scores.push(score_data);
 			processAvgResp(targetId, message);
 		}
 	}	

@@ -17,7 +17,8 @@ var MessageSchema = new Schema({
 	},
 	content: {
 		type: String,
-        default: ''
+        default: '',
+        trim: true
 	},
 	senti_score: {
 		type: Number,
@@ -36,7 +37,8 @@ var MessageSchema = new Schema({
 MessageSchema.index({conversation: 1});
 
 MessageSchema.pre('save', function (next) {
-	if (this.content) this.senti_score = sentService.getSentiment(this.content);
+	this.content = (this.content || '').trim();
+	if (this.content) this.senti_score = (sentService.getSentiment(this.content));
 	next();
 });
 
