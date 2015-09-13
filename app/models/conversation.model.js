@@ -35,7 +35,7 @@ ConversationSchema.index({participants: 1});
  */
 ConversationSchema.statics.loadOne = function (from, to, cb) {
     var Conversation = this;
-
+    if (!from || !to) return cb('UNKNOWN_ERR');
     async.waterfall([
         function (callback) {
             Conversation.findOne({
