@@ -34,6 +34,7 @@ angular.module('ivyTalk')
 		});
 
 		$scope.sendMessage = function (msg){
+			console.log(msg);
 			if(msg) {
 				Messenger.createMessage($scope.targetId, msg, function (err, message) {
 					if(err) return alert(err.err_description);
