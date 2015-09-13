@@ -13,21 +13,21 @@ block content
 						.title-block
 							img.logo(src='/images/ivytalk_logo.png')
 							img.logo-cht(src='/images/ivytalk_logo_cht.png')
-						.row.user-block
-							.col-xs-5.targetName {{targetId}}
-							.col-xs-2.heart ♥
-							.col-xs-5.userName {{userId}}
+						.user-block
+							.col-xs-5.targetName(ng-cloak) {{targetId}}
+							.col-xs-2.heart(ng-cloak) ♥
+							.col-xs-5.userName(ng-cloak) {{userId}}
 						.message-block
 							.a-message(ng-repeat="message in conv.messages track by $index")		
 								span.target(ng-if="!isMyMessage(message)")
 									img.img-responsive.profile-pic(src='/images/ivy_photo.png')
 									.message.talk-bubble.round
 										.talktext
-											p {{message.content}}
+											p.ng-cloak {{message.content}}
 								.self(ng-if="isMyMessage(message)")
 									.message.talk-bubble.round
 										.talktext
-											p {{message.content}}
+											p.ng-cloak {{message.content}}
 						//- .a-message
 						//- 	span.target
 						//- 		img.img-responsive.profile-pic(src='/images/ivy_photo.png')
