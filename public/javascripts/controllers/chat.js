@@ -3,9 +3,9 @@ angular.module('ivyTalk')
 	'$scope',
 	'Messenger',
 	function ($scope, Messenger) {
-		$scope.textToSend = "";
-		$scope.userId = prompt("你的暱稱?", "TestUser"),
-		$scope.targetId = prompt("想和誰說話?", "Ivy");
+		$scope.textToSend = '';
+		$scope.userId = prompt('你的暱稱?', 'roger'),
+		$scope.targetId = prompt('想和誰說話?', 'ivy');
 
 		Messenger.registerUser({
 			name: $scope.userId,
@@ -23,14 +23,16 @@ angular.module('ivyTalk')
 		};
 
 		Messenger.registerListener(function (from, message) {
-			console.log(from);
-			console.log(message);
+			var targetId = from.userId;
+			// Messenger.pushMessage(targetId, message);
+			if ($scope.targetId !== targetId) return;
+			appendMsg();
 		});
 
 		$scope.sendMessage = function (msg){
 			if(msg) {
-				Messenger.createMessage($scope.targetId, msg, function(err, message){
-					if(err) alert(err);
+				Messenger.createMessage($scope.targetId, msg, function (err, message) {
+					if(err) return alert(err.err_description);
 					appendMsg();
 				});
 				$scope.textToSend = '';
@@ -45,5 +47,6 @@ angular.module('ivyTalk')
 			if(event.which === 13) {
 				$scope.sendMessage($scope.textToSend);
 				$scope.textToSend = '';
+			}
 		};	
 }]);

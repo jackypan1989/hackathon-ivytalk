@@ -5,7 +5,8 @@ angular.module('ivyTalk')
 		MESSAGE_CREATE = 'message:create',
 		socket = io.connect(),
 		convs = {},
-		listeners = [];
+		listeners = [],
+		me = null;
 
 	function handleError (error) {
 		alert(error.err_description);
@@ -15,26 +16,34 @@ angular.module('ivyTalk')
 		if (!convs[targetId]) {
 			convs[targetId] = {
 				messages: [],
-				score: 0
+				my_total_score: 0,
+				my_scores: [],
+				target_total_score: 0,
+				target_scores:[]
 			};
 		}
 	}
 
 	function pushMessage (targetId, message) {
 		initConv(targetId);
-		if (Array.isArray(message)) {
-			convs[targetId].messages.concat(message);
+		convs[targetId].messages.push(message);
+		if (me && me._id === message.from) {
+			convs[targetId].my_total_score += message.senti_score;
+			convs[targetId].my_scores.push(message.senti_score);
 		} else {
-			convs[targetId].messages.push(message);
+			convs[targetId].target_total_score += message.senti_score;
+			convs[targetId].target_scores.push(message.senti_score);
 		}
-		console.log(convs);
+		console.log(convs[targetId]);
 	}	
 
+	listeners.push(function (from, message) {
+		pushMessage(from.userId, message);
+	});
+
 	socket.on('message', function (data) {
-		var from = data.from,
-			message = data.message;
 		listeners.forEach(function (listener) {
-			listener(from, message);
+			listener(data.from, data.message);
 		});
 	});
 
@@ -47,11 +56,14 @@ angular.module('ivyTalk')
 
 		initConv: initConv,
 
+		pushMessage: pushMessage,
+
 		registerUser: function (user, cb) {
 			var that = this;
 			socket.emit(USER_REGISTER, user, function (err, data) {
 				if (err) return handleError(err);
 				that.user = data;
+				me = data;
 				if (cb) cb();
 			});
 		},
@@ -83,7 +95,6 @@ angular.module('ivyTalk')
 					handleError(err);
 					cb(err);
 				} else {
-					console.log("done createMessage: "+ message);
 					pushMessage(targetId, message);
 					cb(null, message);
 				}
