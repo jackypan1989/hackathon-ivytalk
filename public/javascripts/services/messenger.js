@@ -63,15 +63,20 @@ angular.module('ivyTalk')
 		initConv(targetId);
 		convs[targetId].messages.push(message);
 		if (isMyMsg(message)) {
-			convs[targetId].my_total_score += ivy_score;
+			convs[targetId].my_total_score += parseInt(ivy_score);
+			convs[targetId].my_total_score
 			if(convs[targetId].my_total_score <= 0) 
 				convs[targetId].my_total_score = 0;
+			else if(convs[targetId].my_total_score >= 100) 
+				convs[targetId].my_total_score = 100;
 			convs[targetId].my_scores.push(score_data);
 		} else {
-			convs[targetId].target_total_score += ivy_score;
+			convs[targetId].target_total_score += parseInt(ivy_score);
 			convs[targetId].target_scores.push(score_data);
-			if(convs[targetId].target_scores <= 0) 
-				convs[targetId].target_scores = 0;
+			if(convs[targetId].target_total_score <= 0) 
+				convs[targetId].target_total_score = 0;
+			else if(convs[targetId].target_total_score >= 100) 
+				convs[targetId].target_total_score = 100;
 			processAvgResp(targetId, message);
 		}
 	}	

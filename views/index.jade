@@ -10,11 +10,11 @@ block content
 					.progress-div.target-progress
 						p.name {{targetId}}
 						p.point 曖昧指數 {{target_score}}%
-						div(round-progress max="max" current="current" color="#D58082" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+						div(round-progress max="max" current="target_score" color="#D58082" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
 					.progress-div.user-progress
 						p.name {{userId}}
 						p.point 曖昧指數 {{user_score}}%
-						div(round-progress max="max" current="current" color="#ABA0CC" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+						div(round-progress max="max" current="user_score" color="#ABA0CC" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
 				.middle-block
 					.chat-block
 						.title-block
