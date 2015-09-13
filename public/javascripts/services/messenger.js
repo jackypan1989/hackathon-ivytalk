@@ -28,7 +28,7 @@ angular.module('ivyTalk')
 			convs[targetId].messages.push(message);
 		}
 		console.log(convs);
-	}
+	}	
 
 	socket.on('message', function (data) {
 		var from = data.from,

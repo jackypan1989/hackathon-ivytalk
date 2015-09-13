@@ -4,58 +4,45 @@ angular.module('ivyTalk')
 	'Messenger',
 	function ($scope, Messenger) {
 		$scope.textToSend = "";
-		
-		var name = userId = prompt("你的暱稱?", "TestUser"),
-			targetId = prompt("想和誰說話?", "Ivy");
+		$scope.userId = prompt("你的暱稱?", "TestUser"),
+		$scope.targetId = prompt("想和誰說話?", "Ivy");
 
 		Messenger.registerUser({
-			name: name,
-			userId: userId,
+			name: $scope.userId,
+			userId: $scope.userId,
 			gender: 'male'
 		}, function () {
-			Messenger.initConv(targetId);
-			$scope.conv = Messenger.convs[targetId];
+			Messenger.initConv($scope.targetId);
+			$scope.conv = Messenger.convs[$scope.targetId];
 		});
 
-		var appendMsg = function(){
-			$scope.$apply(function() {
+		var appendMsg = function () {
+			$scope.$apply(function () {
 				$(".chat-block").animate({scrollTop: $(".message-block").height()}, 100);
 			});	
-		}
+		};
 
 		Messenger.registerListener(function (from, message) {
 			console.log(from);
 			console.log(message);
 		});
 
-		$scope.sendMessage = function(msg){
-			//console.log($scope.messages);
+		$scope.sendMessage = function (msg){
 			if(msg) {
-				console.log("sendMessage: "+msg);
-				Messenger.createMessage(targetId, msg, function (err, message) {
-					if(err) return alert(err);
+				Messenger.createMessage($scope.targetId, msg, function(err, message){
+					if(err) alert(err);
 					appendMsg();
-					
 				});
 				$scope.textToSend = "";
 			}
 		};
 
-		$scope.isMyMessage = function(msg) {
-			//console.log(msg);
-			//console.log("isMyMessage: " + msg + " : " + Messenger.user._id)
+		$scope.isMyMessage = function (msg) {
 			return (Messenger.user._id && msg.from === Messenger.user._id);
-		}
-
-		
-
+		};
+	
 		$scope.keyPress = function(event){
-			// console.log(event.which);
 			if(event.which === 13)
 				$scope.sendMessage($scope.textToSend);
-		}
-
-		
-		
-		
+		};	
 }]);

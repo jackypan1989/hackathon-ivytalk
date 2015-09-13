@@ -13,6 +13,10 @@ block content
 						.title-block
 							img.logo(src='/images/ivytalk_logo.png')
 							img.logo-cht(src='/images/ivytalk_logo_cht.png')
+						.row.user-block
+							.col-xs-5.targetName {{targetId}}
+							.col-xs-2.heart ♥
+							.col-xs-5.userName {{userId}}
 						.message-block
 							.a-message(ng-repeat="message in conv.messages track by $index")		
 								span.target(ng-if="!isMyMessage(message)")
