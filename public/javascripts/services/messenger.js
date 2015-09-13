@@ -19,10 +19,10 @@ angular.module('ivyTalk')
 			convs[targetId] = {
 				messages: [],
 				//my score
-				my_total_score: 50,
+				my_total_score: 10,
 				my_scores: [],
 				//target score
-				target_total_score: 50,
+				target_total_score: 10,
 				target_scores:[],
 				//target resp time
 				resp_times: [],
@@ -64,10 +64,14 @@ angular.module('ivyTalk')
 		convs[targetId].messages.push(message);
 		if (isMyMsg(message)) {
 			convs[targetId].my_total_score += ivy_score;
+			if(convs[targetId].my_total_score <= 0) 
+				convs[targetId].my_total_score = 0;
 			convs[targetId].my_scores.push(score_data);
 		} else {
 			convs[targetId].target_total_score += ivy_score;
 			convs[targetId].target_scores.push(score_data);
+			if(convs[targetId].target_scores <= 0) 
+				convs[targetId].target_scores = 0;
 			processAvgResp(targetId, message);
 		}
 	}	

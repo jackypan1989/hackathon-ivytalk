@@ -22,7 +22,8 @@ angular.module('ivyTalk')
 				//data
 				$scope.data[0].values = $scope.conv.my_scores;
 				$scope.data[1].values = $scope.conv.target_scores;
-				$scope.current = $scope.conv.target_total_score;
+				$scope.target_score = $scope.conv.target_total_score;
+				$scope.user_score = $scope.conv.my_total_score;
 			});	
 		};
 
@@ -112,7 +113,7 @@ angular.module('ivyTalk')
         ];
 
         $scope.max = 100;
-        //$scope.current = 40;
-        $scope.current = $scope.conv.target_total_score;
+        $scope.target_score = $scope.conv.target_total_score;
+        $scope.user_score = $scope.conv.my_total_score;
 
 }]);
