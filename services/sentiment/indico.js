@@ -3,7 +3,7 @@ indico.apiKey = 'd9c003c0cc29ea72e2931819000803aa';
 
 function transform (res) {
 	if (res === 0) return 0;
-	return (res - 0.3) * 3;
+	return (res - 0.5) * 3;
 }
 
 exports.getScore = function (sentence, cb) {
