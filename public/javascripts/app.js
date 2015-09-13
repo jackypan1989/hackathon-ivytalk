@@ -1,1 +1,1 @@
-angular.module('ivyTalk', ['nvd3']);
+angular.module('ivyTalk', ['nvd3', 'angular-svg-round-progress']);
