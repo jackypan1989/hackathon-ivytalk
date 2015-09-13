@@ -6,21 +6,23 @@ angular.module('ivyTalk')
 		$scope.textToSend = '';
 		$scope.userId = prompt('你的暱稱?', 'roger'),
 		$scope.targetId = prompt('想和誰說話?', 'ivy');
-
+		Messenger.initConv($scope.targetId);
+		$scope.conv = Messenger.convs[$scope.targetId];
 		$(".message-block").css('max-height',window.innerHeight/809 * 600 -30 +"px");
 		
 		Messenger.registerUser({
 			name: $scope.userId,
 			userId: $scope.userId,
 			gender: 'male'
-		}, function () {
-			Messenger.initConv($scope.targetId);
-			$scope.conv = Messenger.convs[$scope.targetId];
 		});
 
 		var appendMsg = function () {
 			$scope.$apply(function () {
 				$(".message-block").animate({scrollTop: $(".message-block").prop("scrollHeight") + 1000}, 100);
+				//data
+				$scope.data[0].values = $scope.conv.my_scores;
+				$scope.data[1].values = $scope.conv.target_scores;
+				$scope.current = $scope.conv.target_total_score;
 			});	
 		};
 
@@ -97,18 +99,20 @@ angular.module('ivyTalk')
         $scope.data = [
             {
                 key: $scope.userId,
-                values: [ [ 1083297600000 , -2.974623048543] , [ 1085976000000 , -1.7740300785979] , [ 1088568000000 , 4.4681318138177] ]
-                ,
-                mean: 250
+                //values: [ [ 1083297600000 , -2.974623048543] , [ 1085976000000 , -1.7740300785979] , [ 1088568000000 , 4.4681318138177] ]
+                values: $scope.conv.my_scores,
+                mean: 0
             },
             {
                 key: $scope.targetId,
-                values: [ [ 1083297600000 , -0.77078283705125] , [ 1085976000000 , -1.8356366650335] , [ 1088568000000 , -5.3121322073127] ]           ,
-                mean: -60
+                //values: [ [ 1083297600000 , -0.77078283705125] , [ 1085976000000 , -1.8356366650335] , [ 1088568000000 , -5.3121322073127] ]           ,
+                values: $scope.conv.target_scores,
+                mean: 0
             }
         ];
 
         $scope.max = 100;
-        $scope.current = 40;
+        //$scope.current = 40;
+        $scope.current = $scope.conv.target_total_score;
 
 }]);
