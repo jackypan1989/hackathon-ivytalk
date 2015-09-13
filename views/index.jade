@@ -10,6 +10,10 @@ block content
 					p.name {{targetId}}
 					p.point 曖昧指數 {{current}}%
 					div(round-progress max="max" current="current" color="#D58082" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+					div.resp-time
+						p 近期對話平均回應時間
+						br
+						p {{conv.last_avg_resp_rate}} sec
 				.middle-block
 					.chat-block
 						.title-block
