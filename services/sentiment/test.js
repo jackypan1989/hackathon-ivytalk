@@ -1,4 +1,4 @@
-var sentiment = require('./sentiment');
+var sentiment = require('./index');
 sentiment.load();
 
 setTimeout(function(){ 

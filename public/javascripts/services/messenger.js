@@ -3,10 +3,12 @@ angular.module('ivyTalk')
 	var USER_REGISTER = 'user:register',
 		MESSAGE_LIST = 'message:list',
 		MESSAGE_CREATE = 'message:create',
+		MESSAGE_SCORE = 'message:score',
 		socket = io.connect(),
 		convs = {},
 		listeners = [],
-		me = null;
+		me = null,
+		AVG_RESP_NUM = 3;
 
 	function handleError (error) {
 		alert(error.err_description);
@@ -16,12 +18,35 @@ angular.module('ivyTalk')
 		if (!convs[targetId]) {
 			convs[targetId] = {
 				messages: [],
+				//my score
 				my_total_score: 0,
 				my_scores: [],
+				//target score
 				target_total_score: 0,
-				target_scores:[]
+				target_scores:[],
+				//target resp time
+				resp_times: [],
+				last_resp_times: [],
+				last_avg_resp_rate: 0 //seconds
 			};
 		}
+	}
+
+	function processAvgResp (targetId, message) {
+		var times = convs[targetId].last_resp_times,
+			createAt = message.createAt,
+			sum = 0,
+			i = 0;
+		if (times.length === AVG_RESP_NUM + 1) {
+			times.shift();
+		}
+		convs[targetId].resp_times.push(createAt);
+		times.push(createAt);
+		if (times.length  <= 1) return;
+		for (i; i < times.length - 1; i += 1) {
+			sum += moment(times[i + 1]).diff(times[i], 'seconds'); 
+		}
+		convs[targetId].last_avg_resp_rate = sum / times.length; 
 	}
 
 	function isMyMsg (msg) {
@@ -37,8 +62,8 @@ angular.module('ivyTalk')
 		} else {
 			convs[targetId].target_total_score += message.senti_score;
 			convs[targetId].target_scores.push(message.senti_score);
+			processAvgResp(targetId, message);
 		}
-		console.log(convs[targetId]);
 	}	
 
 	listeners.push(function (from, message) {
@@ -104,6 +129,15 @@ angular.module('ivyTalk')
 					pushMessage(targetId, message);
 					cb(null, message);
 				}
+			});
+		},
+
+		getContentScore: function (content, cb) {
+			socket.emit(MESSAGE_SCORE, {
+				content: content
+			}, function (err, score) {
+				console.log(score);
+				cb(null, score || 0);
 			});
 		}
 	};

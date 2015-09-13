@@ -5,7 +5,8 @@ var User = require('../models/user.model'),
 	Conversation = require('../models/Conversation.model'),
 	Message = require('../models/Message.model'),
 	async = require('async'),
-	errService = require('../../services/error');
+	errService = require('../../services/error'),
+	sentService = require('../../services/sentiment');
 
 function initConv (socket, toUserId, cb) {
 	var from = socket.user,
@@ -90,5 +91,16 @@ module.exports = function (socket) {
 			});
 			ack(null, message);
 		});
+	});
+
+	/**
+	 * message:score
+	 * @params: content
+	 * @ack: score
+	 */
+	socket.on('message:score', function (data, ack) {
+		var content = data.content || '',
+			score = sentService.getSentiment(content);
+		ack(null, score || 0);
 	});
 };

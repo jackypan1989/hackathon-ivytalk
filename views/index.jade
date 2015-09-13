@@ -39,8 +39,15 @@ block content
 						//- 		.message.talk-bubble.round
 						//- 			.talktext
 						//- 				p {{hello}}
+<<<<<<< HEAD
 				
 					
+=======
+				.col-xs-4
+					div(class='progress-div')
+						div(class='point') 曖昧指數 40/100
+						div(round-progress max="max" current="current" color="#45ccce" bgcolor="#eaeaea" radius="100" stroke="20" semi="true" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+>>>>>>> 6479462c9b4d20cdc2831b47b165745ee826fa37
 		.msg-block
 			textarea.msg-input(ng-keypress="keyPress($event)" autofocus placeholder="請輸入聊天訊息" ng-model='textToSend')
 			button.btn.msg-send(ng-click='sendMessage(textToSend)') 送出

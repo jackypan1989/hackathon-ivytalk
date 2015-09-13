@@ -108,5 +108,7 @@ angular.module('ivyTalk')
             }
         ];
 
+        $scope.max = 100;
+        $scope.current = 40;
 
 }]);
