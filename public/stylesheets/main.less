@@ -86,6 +86,7 @@ body {
 .middle-block {
 	height: inherit;
 	max-height: 95%;
+	min-width: 320px;
 	.chat-block {
 		max-height: 100%;
 		border-radius: 30px;
@@ -94,10 +95,10 @@ body {
 		margin-left: 15px;
 		padding-bottom: 20px;
 		.mixin-bg-linear-grad(top, rgba(254, 228, 197, 0.9), rgba(254, 228, 197, 0.45));
-		overflow-y: auto;
+		overflow-y: hidden;
 		.message-block {
-			max-height: 95%;
-			
+			height: 300px;
+			overflow-y: auto;
 		}
 	}
 }

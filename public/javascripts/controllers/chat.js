@@ -7,12 +7,6 @@ angular.module('ivyTalk')
 		$scope.userId = prompt('你的暱稱?', 'roger'),
 		$scope.targetId = prompt('想和誰說話?', 'ivy');
 
-		var appendMsg = function () {
-			$scope.$apply(function () {
-				$('.chat-block').animate({scrollTop: $('.message-block').height()}, 100);
-			});	
-		};
-
 		Messenger.registerUser({
 			name: $scope.userId,
 			userId: $scope.userId,
@@ -21,6 +15,12 @@ angular.module('ivyTalk')
 			Messenger.initConv($scope.targetId);
 			$scope.conv = Messenger.convs[$scope.targetId];
 		});
+
+		var appendMsg = function () {
+			$scope.$apply(function () {
+				$(".message-block").animate({scrollTop: $(".message-block").prop("scrollHeight")}, 100);
+			});	
+		};
 
 		Messenger.registerListener(function (from, message) {
 			var targetId = from.userId;
@@ -35,7 +35,7 @@ angular.module('ivyTalk')
 					if(err) return alert(err.err_description);
 					appendMsg();
 				});
-				$scope.textToSend = "";
+				$scope.textToSend = '';
 			}
 		};
 
@@ -46,6 +46,7 @@ angular.module('ivyTalk')
 		$scope.keyPress = function(event){
 			if(event.which === 13) {
 				$scope.sendMessage($scope.textToSend);
+				$scope.textToSend = '';
 			}
 		};	
 }]);
