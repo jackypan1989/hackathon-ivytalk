@@ -8,21 +8,20 @@ angular.module('ivyTalk')
 		var name = userId = prompt("你的暱稱?", "TestUser"),
 			targetId = prompt("想和誰說話?", "Ivy");
 
-		var appendMsg = function(){
-			$scope.$apply(function() {
-				$scope.messages = Messenger.convs[targetId].messages || null; 
-				var window_height = window.innerHeight;
-				console.log(window_height);
-				// $(".content").attr("height", window_height-82);
-				$(".chat-block").animate({scrollTop: $(".message-block").height()}, 100);
-			});
-		}
-
 		Messenger.registerUser({
 			name: name,
 			userId: userId,
 			gender: 'male'
+		}, function () {
+			Messenger.initConv(targetId);
+			$scope.conv = Messenger.convs[targetId];
 		});
+
+		var appendMsg = function(){
+			$scope.$apply(function() {
+				$(".chat-block").animate({scrollTop: $(".message-block").height()}, 100);
+			});	
+		}
 
 		Messenger.registerListener(function (from, message) {
 			console.log(from);
@@ -30,11 +29,11 @@ angular.module('ivyTalk')
 		});
 
 		$scope.sendMessage = function(msg){
-			console.log($scope.messages);
+			//console.log($scope.messages);
 			if(msg) {
 				console.log("sendMessage: "+msg);
-				Messenger.createMessage(targetId, msg, function(err, message){
-					if(err) alert(err);
+				Messenger.createMessage(targetId, msg, function (err, message) {
+					if(err) return alert(err);
 					appendMsg();
 					
 				});

@@ -10,7 +10,6 @@ var User = require('../models/user.model'),
 function initConv (socket, toUserId, cb) {
 	var from = socket.user,
 		toUser;
-
 	async.waterfall([
 		function (callback) {
 			User.findOne({
@@ -61,7 +60,7 @@ module.exports = function (socket) {
 		var from = socket.user,
 			toUserId = data.userId,
 			content = data.content;
-
+		console.log(data);
 		async.waterfall([
 			function (callback) {
 				initConv(socket, toUserId, callback);
@@ -78,7 +77,8 @@ module.exports = function (socket) {
 			}
 		], function (err, message, conv) {
 			if (err) return ack(errService(err));
-			socket.broadcast.to(toUserId).emit(message, {
+			console.log(toUserId);
+			socket.broadcast.to(toUserId).emit('message', {
                 from: from,
                 message: message,
                 conv: conv

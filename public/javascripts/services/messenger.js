@@ -33,7 +33,6 @@ angular.module('ivyTalk')
 	socket.on('message', function (data) {
 		var from = data.from,
 			message = data.message;
-
 		listeners.forEach(function (listener) {
 			listener(from, message);
 		});
@@ -46,13 +45,14 @@ angular.module('ivyTalk')
 
 		user: null,
 
-		registerUser: function (user) {
+		initConv: initConv,
+
+		registerUser: function (user, cb) {
 			var that = this;
 			socket.emit(USER_REGISTER, user, function (err, data) {
 				if (err) return handleError(err);
 				that.user = data;
-				console.log("Registered Successfully: " + data.name);
-				console.log(data);
+				if (cb) cb();
 			});
 		},
 

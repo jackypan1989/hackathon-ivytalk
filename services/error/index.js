@@ -8,13 +8,13 @@ function getUnknownError (err) {
 	};
 }
 
-module.exports = function (err_code, _err) {
+module.exports = function (_err_code, _err) {
 	var err_code = 'UNKNOWN_ERR',
 		err = null,
 		error,
 		err_resp;
 
-	if (typeof _err_code === 'string' || _err !== undefined) {
+	if (typeof _err_code === 'string') {
 		err_code = _err_code;
 		err = _err || null;
 	} else {

@@ -14,7 +14,7 @@ block content
 							img.logo(src='/images/ivytalk_logo.png')
 							img.logo-cht(src='/images/ivytalk_logo_cht.png')
 						.message-block
-							.a-message(ng-repeat="message in messages track by $index")		
+							.a-message(ng-repeat="message in conv.messages track by $index")		
 								span.target(ng-if="!isMyMessage(message)")
 									img.img-responsive.profile-pic(src='/images/ivy_photo.png')
 									.message.talk-bubble.round
@@ -41,11 +41,3 @@ block content
 			textarea.msg-input(ng-keypress="keyPress($event)" autofocus placeholder="請輸入聊天訊息" ng-model='textToSend')
 			button.btn.msg-send(ng-click='sendMessage(textToSend)') 送出
 
-
-block script
-	script.
-		//- var ivyTalk = new IvyTalk(io, {
-		//- 		name: 'Roger Kuo',
-		//- 		userId: 'roger',
-		//- 		gender: 'male'
-		//- 	});

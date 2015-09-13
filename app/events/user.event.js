@@ -29,6 +29,7 @@ module.exports = function (socket) {
 		], function (err, user, numberAffected) {
 			if (err) return ack(errService('REGISTER_ERR', err));
 			socket.user = user;
+			console.log('join', userId);
 			socket.join(userId);
 			ack(null, user);
 		});
