@@ -33,3 +33,5 @@ node_modules
 .DS_Store
 
 services/sentiment/corpus/roger
+
+public/stylesheets/main.css

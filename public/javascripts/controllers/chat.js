@@ -7,6 +7,8 @@ angular.module('ivyTalk')
 		$scope.userId = prompt('你的暱稱?', 'roger'),
 		$scope.targetId = prompt('想和誰說話?', 'ivy');
 
+		$(".message-block").css('max-height',window.innerHeight/809 * 600 +"px");
+		
 		Messenger.registerUser({
 			name: $scope.userId,
 			userId: $scope.userId,
@@ -42,9 +44,11 @@ angular.module('ivyTalk')
 	
 		$scope.keyPress = function(event){
 			if(event.which === 13) {
+				 event.preventDefault();
 				$scope.sendMessage($scope.textToSend);
 				$scope.textToSend = '';
 			}
+			return false;
 		};	
 
 		// nvd3
