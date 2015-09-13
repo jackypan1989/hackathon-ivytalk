@@ -60,7 +60,6 @@ module.exports = function (socket) {
 		var from = socket.user,
 			toUserId = data.userId,
 			content = data.content;
-		console.log(data);
 		async.waterfall([
 			function (callback) {
 				initConv(socket, toUserId, callback);
@@ -77,12 +76,10 @@ module.exports = function (socket) {
 			}
 		], function (err, message, conv) {
 			if (err) return ack(errService(err));
-			console.log(toUserId);
 			socket.broadcast.to(toUserId).emit('message', {
-                from: from,
-                message: message,
-                conv: conv
-            });
+				from: from,
+				message: message
+			});
 			ack(null, message);
 		});
 	});
