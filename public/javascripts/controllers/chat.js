@@ -18,7 +18,7 @@ angular.module('ivyTalk')
 
 		var appendMsg = function () {
 			$scope.$apply(function () {
-				$(".chat-block").animate({scrollTop: $(".message-block").height()}, 100);
+				$(".message-block").animate({scrollTop: $(".message-block").prop("scrollHeight")}, 100);
 			});	
 		};
 
@@ -33,7 +33,7 @@ angular.module('ivyTalk')
 					if(err) alert(err);
 					appendMsg();
 				});
-				$scope.textToSend = "";
+				$scope.textToSend = '';
 			}
 		};
 
@@ -42,7 +42,8 @@ angular.module('ivyTalk')
 		};
 	
 		$scope.keyPress = function(event){
-			if(event.which === 13)
+			if(event.which === 13) {
 				$scope.sendMessage($scope.textToSend);
+				$scope.textToSend = '';
 		};	
 }]);
