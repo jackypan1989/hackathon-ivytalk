@@ -2,8 +2,8 @@
  * Module dependencies.
  */
 var User = require('../models/user.model'),
-	Conversation = require('../models/Conversation.model'),
-	Message = require('../models/Message.model'),
+	Conversation = require('../models/conversation.model'),
+	Message = require('../models/message.model'),
 	async = require('async'),
 	errService = require('../../services/error'),
 	sentService = require('../../services/sentiment');
