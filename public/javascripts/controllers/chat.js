@@ -7,7 +7,7 @@ angular.module('ivyTalk')
 		$scope.userId = prompt('你的暱稱?', 'roger'),
 		$scope.targetId = prompt('想和誰說話?', 'ivy');
 
-		$(".message-block").css('max-height',window.innerHeight/809 * 600 +"px");
+		$(".message-block").css('max-height',window.innerHeight/809 * 600 -30 +"px");
 		
 		Messenger.registerUser({
 			name: $scope.userId,
@@ -20,7 +20,7 @@ angular.module('ivyTalk')
 
 		var appendMsg = function () {
 			$scope.$apply(function () {
-				$(".message-block").animate({scrollTop: $(".message-block").prop("scrollHeight")}, 100);
+				$(".message-block").animate({scrollTop: $(".message-block").prop("scrollHeight") + 1000}, 100);
 			});	
 		};
 
@@ -57,11 +57,11 @@ angular.module('ivyTalk')
         $scope.options = {
             chart: {
                 type: 'cumulativeLineChart',
-                height: 450,
+                height: 350,
                 margin : {
                     top: 20,
                     right: 20,
-                    bottom: 60,
+                    bottom: 30,
                     left: 65
                 },
                 x: function(d){ return d[0]; },
@@ -74,20 +74,21 @@ angular.module('ivyTalk')
                 clipVoronoi: false,
 
                 xAxis: {
-                    axisLabel: '時間',
+                    // axisLabel: '時間',
                     tickFormat: function(d) {
-                        return d3.time.format('%m/%d/%y')(new Date(d))
+                        return d3.time.format('%H:%M:%S')(new Date(d))
                     },
                     showMaxMin: false,
-                    staggerLabels: true
+                    staggerLabels: false
                 },
 
                 yAxis: {
-                    axisLabel: '曖昧指數',
+                    // axisLabel: '曖昧指數',
                     tickFormat: function(d){
-                        return d3.format(',.1%')(d);
+                        return d3.format(',.1')(d);
                     },
-                    axisLabelDistance: 20
+                    showMaxMin: false,
+                    //axisLabelDistance: 20
                 }
             }
         };

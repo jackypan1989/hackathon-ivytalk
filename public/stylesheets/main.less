@@ -87,19 +87,21 @@ body {
 }
 
 .middle-block {
+	float: left;
+	width: 28%;
 	height: inherit;
 	max-height: 95%;
 	min-width: 320px;
 	.chat-block {
-		max-height: 100%;
 		border-radius: 30px;
+		margin-top:20px;
 		min-height: 200px;
-		margin: 20px 0;
 		margin-left: 15px;
 		padding-bottom: 20px;
 		.mixin-bg-linear-grad(top, rgba(254, 228, 197, 0.9), rgba(254, 228, 197, 0.45));
 		overflow-y: hidden;
 		.message-block {
+		
 			overflow-y: auto;
 		}
 	}
@@ -168,8 +170,20 @@ body {
 	}
 }
 
-svg {
-	background-color: white;
+.history-chart {
+	float: left;
+	width: 34%;
+	opacity: 0.8;
+	background-image: url("/images/light-gaussian-blur-wallpaper-3230-3434-hd-wallpapers.jpg");;
+	border-radius: 30px;
 	margin-top: 20px;
 	margin-left: 20px;
+
+}
+
+svg {
+	.nv-axislabel {
+		width: 50px;
+		margin-left: 40px;
+	}
 }
