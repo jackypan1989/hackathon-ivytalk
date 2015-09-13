@@ -8,14 +8,14 @@ var eventRegister = require('../app/events');
 module.exports = function (io) {
     //connection handler
     io.on('connection', function (socket) {
-        console.info('User: "%s" CONNECTED at ', new Date());
+        console.info('Socket: "%s" CONNECTED at ', socket.id, new Date());
 
         //add events
         eventRegister(socket);
 
         //on disconnect
         socket.on('disconnect', function () {
-            console.info('User: "%s" DISCONNECTED at ', socket, new Date());
+            console.info('Socket: "%s" DISCONNECTED at ', socket.id, new Date());
         }); // end disconnect
     });
 };

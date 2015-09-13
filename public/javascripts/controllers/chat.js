@@ -24,7 +24,6 @@ angular.module('ivyTalk')
 
 		Messenger.registerListener(function (from, message) {
 			var targetId = from.userId;
-			// Messenger.pushMessage(targetId, message);
 			if ($scope.targetId !== targetId) return;
 			appendMsg();
 		});
@@ -39,9 +38,7 @@ angular.module('ivyTalk')
 			}
 		};
 
-		$scope.isMyMessage = function (msg) {
-			return (Messenger.user._id && msg.from === Messenger.user._id);
-		};
+		$scope.isMyMessage = Messenger.isMyMsg;
 	
 		$scope.keyPress = function(event){
 			if(event.which === 13) {

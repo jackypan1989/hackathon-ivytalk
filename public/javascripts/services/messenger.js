@@ -24,10 +24,14 @@ angular.module('ivyTalk')
 		}
 	}
 
+	function isMyMsg (msg) {
+		return me && me._id === msg.from;
+	}
+
 	function pushMessage (targetId, message) {
 		initConv(targetId);
 		convs[targetId].messages.push(message);
-		if (me && me._id === message.from) {
+		if (isMyMsg(message)) {
 			convs[targetId].my_total_score += message.senti_score;
 			convs[targetId].my_scores.push(message.senti_score);
 		} else {
@@ -58,10 +62,12 @@ angular.module('ivyTalk')
 
 		pushMessage: pushMessage,
 
+		isMyMsg: isMyMsg,
+
 		registerUser: function (user, cb) {
 			var that = this;
 			socket.emit(USER_REGISTER, user, function (err, data) {
-				if (err) return handleError(err);
+				if (err) return handleError(err.err_description);
 				that.user = data;
 				me = data;
 				if (cb) cb();

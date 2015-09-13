@@ -17,7 +17,15 @@ function initConv (socket, toUserId, cb) {
 			}, callback);
 		},
 		function (user, callback) {
-			if (!user) return cb('USER_NOT_FOUND');
+			if (user) return callback(null, user, 0);
+			user = new User({
+				name: toUserId,
+				userId: toUserId,
+				gender: 'female'
+			});
+			user.save(callback);
+		},
+		function (user, numberAffected, callback) {
 			Conversation.loadOne(from, user, callback);
 		}
 	], cb);
