@@ -5,6 +5,7 @@ var lineReader = require('line-reader');
 var nodejieba = require('nodejieba');
 var _ = require('lodash')
 var stopwords = require('./stopwords')
+var indico = require('./indico');
 
 var ivyDict = null;
 var isLoaded = false;
@@ -22,6 +23,14 @@ var getSentiment = function(sentence) {
     }
   }
   return score/words.length;
+};
+
+var getMixSentiment = function (sentence, cb) {
+  var score = getSentiment(sentence) || 0;
+  indico.getScore(sentence, function (err, indico_score) {
+    if (err) return cb(err);
+    cb(null, score + indico_score);
+  });
 };
 
 var load = function() {
@@ -73,3 +82,4 @@ var training = function() {
 
 exports.load = load;
 exports.getSentiment = getSentiment;
+exports.getMixSentiment = getMixSentiment;

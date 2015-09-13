@@ -37,9 +37,15 @@ var MessageSchema = new Schema({
 MessageSchema.index({conversation: 1});
 
 MessageSchema.pre('save', function (next) {
+	var that = this;
 	this.content = (this.content || '').trim();
-	if (this.content) this.senti_score = (sentService.getSentiment(this.content));
-	next();
+	if (!this.content) return next();
+	//that.senti_score = sentService.getSentiment(this.content);
+	//next();
+	sentService.getMixSentiment(this.content, function (err, score) {
+		if (!err) that.senti_score = score;
+		next();
+	});
 });
 
 module.exports = mongoose.model('Message', MessageSchema);
