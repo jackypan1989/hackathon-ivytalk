@@ -11,6 +11,10 @@ block content
 						p.name {{targetId}}
 						p.point 曖昧指數 {{target_score}}%
 						div(round-progress max="max" current="target_score" color="#D58082" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+						.resp-time
+							p 近期對話平均回應時間
+							br
+							p {{conv.last_avg_resp_rate}} sec
 					.progress-div.user-progress
 						p.name {{userId}}
 						p.point 曖昧指數 {{user_score}}%
