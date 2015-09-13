@@ -1,1 +1,1 @@
-angular.module('ivyTalk', []);
+angular.module('ivyTalk', ['nvd3']);
