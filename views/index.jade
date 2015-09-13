@@ -6,8 +6,10 @@ block content
 			img(src='/images/background.png')
 		.content		
 			.content-block
-				.history-chart
-						nvd3(options="options" data="data")
+				.progress-block.target-progress
+					p.name {{targetId}}
+					p.point 曖昧指數 {{current}}%
+					div(round-progress max="max" current="current" color="#D58082" bgcolor="#EEEEEE" radius="100" stroke="13" semi="false" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
 				.middle-block
 					.chat-block
 						.title-block
@@ -39,10 +41,8 @@ block content
 						//- 		.message.talk-bubble.round
 						//- 			.talktext
 						//- 				p {{hello}}
-				.col-xs-4
-					div(class='progress-div')
-						div(class='point') 曖昧指數 40/100
-						div(round-progress max="max" current="current" color="#45ccce" bgcolor="#eaeaea" radius="100" stroke="20" semi="true" rounded="true" clockwise="true" responsive="true" duration="800" animation="easeInOutQuart")
+				.history-chart
+					nvd3(options="options" data="data")
 		.msg-block
 			textarea.msg-input(ng-keypress="keyPress($event)" autofocus placeholder="請輸入聊天訊息" ng-model='textToSend')
 			button.btn.msg-send(ng-click='sendMessage(textToSend)') 送出
